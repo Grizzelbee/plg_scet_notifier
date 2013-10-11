@@ -2,9 +2,12 @@
 /**
  * @copyright	Copyright (C) 2005 - 2012 by Hanjo Hingsen, All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @version     2.5.5
+ * @version     2.5.6
  * @history     
-        V2.5.5, 2012-04-17, Hanjo
+        V2.5.6, 2012-09-26, Hanjo
+            [+] Unterstützung für Jahrestag in die Heute-meldung eingebaut.
+
+            V2.5.5, 2012-04-17, Hanjo
             [+] Getrennte Meldungen für neue und aktualisierte Termine
             
         V2.5.4, 2012-04-16, Hanjo
@@ -43,7 +46,7 @@ class plgUserSCET_Notifier extends JPlugin
         }
 
         // Load the profile data from the database.
-        $db         = JFactory::getDbo();
+        $db = JFactory::getDbo();
         // Get UserId 
         $thisUserId = intval(JUserHelper::getUserId($user['username']));
       
@@ -59,6 +62,11 @@ class plgUserSCET_Notifier extends JPlugin
         // Feature one: Leave an Information, that the Eventpage has new Entries
         if ( $newestEvent > $lastUserVisit ) {
           JError::raiseNotice( 1000, JText::_( $this->params->get( 'MSG_NEW_DATA', 'Error reading Param: MSG_NEW_DATA' ) ));
+          // GetActualURL
+          $actualLoginUrl = Jfactory::GetURI()->current();
+          $redirectUrl = '&return=' . urlencode(base64_encode('index.php?option=com_scet&view=scet'));
+          $finalUrl = $actualLoginUrl . $redirectUrl;
+          // SetFinalURL
         }
         
         // Feature two: Leave an Information, that the Eventpage has been updated
@@ -68,11 +76,21 @@ class plgUserSCET_Notifier extends JPlugin
 
         // Feature three: Leave an Information, that today is an Event.
         $today = date('Y-m-d', time());
-        $db->setQuery( 'SELECT * FROM #__scet_events where published = 1;' );
+        $db->setQuery( "SELECT  event,  
+                                CASE
+                                    WHEN anniversary = 1 THEN DATE(CONCAT(YEAR(CURRENT_DATE), '-', MONTH(datum), '-', DAY(datum)) )
+                                    ELSE datum
+                                END AS datum,
+                                CASE 
+                                    WHEN anniversary=1 THEN YEAR(CURRENT_DATE) - YEAR(datum) 
+                                    ELSE 0 
+                                END AS iteration 
+                        FROM    #__scet_events 
+                        WHERE   published = 1;" );
         $events = $db->loadObjectList();
         foreach ($events as $event) {
             if ($event->datum == $today){
-                JError::raiseNotice(1000, JText::_( Trim($this->params->get( 'MSG_TODAY', 'Error reading Param: MSG_TODAY' )) ) . " $event->event" );
+                JError::raiseNotice(1000, JText::_( Trim($this->params->get( 'MSG_TODAY', 'Error reading Param: MSG_TODAY' )) ) . sprintf(" $event->event", $event->iteration) );
             }
         }
 	}
