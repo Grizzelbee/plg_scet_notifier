@@ -2,12 +2,12 @@
 <extension version="2.5" type="plugin" group="user" method="upgrade">
 	<name>SCET-Notifier</name>
 	<author>Hanjo Hingen</author>
-	<creationDate>16-04-2012</creationDate>
+	<creationDate>17.04.2012</creationDate>
 	<copyright>(C) 2012 Hanjo Hingsen. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>webmaster@treu-zu-kaarst.de</authorEmail>
 	<authorUrl>www.treu-zu-kaarst.de</authorUrl>
-	<version>2.5.4</version>
+	<version>2.5.5</version>
 	<description>PLG_USER_SCET_NOTIFIER_XML_DESCRIPTION</description>
 
 	<files>
@@ -21,14 +21,15 @@
 	</languages>
 
     <updateservers>
-        <server type="extension" priority="1" name="SCET-Notifier Plugin Update Site">http://www.treu-zu-kaarst.de/scet_update/plg_SCET-Notifier_update.xml</server>
+        <server type="extension" priority="1" name="SCET-Notifier Plugin Update Site">http://www.treu-zu-kaarst.de/scet_update/plg_scet_notifier_update.xml</server>
     </updateservers>
     
         <config>
         <fields name="params">
             <fieldset name="basic">
-                <field name="MSG_NEW_DATA" type="textarea" default="PLG_USER_SCET_NOTIFIER_MSG_NEW_DATA_DEFAULT" label="PLG_USER_SCET_NOTIFIER_MSG_NEW_DATA" description="PLG_USER_SCET_NOTIFIER_MSG_NEW_DATA_DESCRIPTION" />
-                <field name="MSG_TODAY"    type="textarea" default="PLG_USER_SCET_NOTIFIER_MSG_TODAY_DEFAULT"    label="PLG_USER_SCET_NOTIFIER_MSG_TODAY"    description="PLG_USER_SCET_NOTIFIER_MSG_TODAY_DESCRIPTION" />
+                <field name="MSG_NEW_DATA" type="textarea" default="" label="PLG_USER_SCET_NOTIFIER_MSG_NEW_DATA" description="PLG_USER_SCET_NOTIFIER_MSG_NEW_DATA_DESCRIPTION" />
+                <field name="MSG_UPDATED"  type="textarea" default="" label="PLG_USER_SCET_NOTIFIER_MSG_UPDATED"  description="PLG_USER_SCET_NOTIFIER_MSG_UPDATED_DESCRIPTION" />
+                <field name="MSG_TODAY"    type="textarea" default="" label="PLG_USER_SCET_NOTIFIER_MSG_TODAY"    description="PLG_USER_SCET_NOTIFIER_MSG_TODAY_DESCRIPTION" />
             </fieldset>
         </fields>
     </config>
